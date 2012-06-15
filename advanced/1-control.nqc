@@ -80,7 +80,7 @@ task sound()
 }
 
 
-void forward()
+sub forward()
 {
     if(SENSOR_1 == 1 && SENSOR_3 == 1 )
     {
@@ -94,14 +94,13 @@ void forward()
     }
 }
 
-void spin()
+sub spin()
 {
     // Left
     if(SENSOR_1 == 1 && SENSOR_3 == 0)
     {
         l_speed = WHEELS_SPEED;
         r_speed = -WHEELS_SPEED;
-        //*robot_wheels_on = 1;
     }
     // Right
     else if(SENSOR_1 == 0 && SENSOR_3 = 1)
