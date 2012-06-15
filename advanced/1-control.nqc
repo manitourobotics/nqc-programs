@@ -14,18 +14,19 @@
         - C -- Left motor
 */
 
-#define WHEELS_SPEED 7.7
-#define KICKER_SPEED 7.7
 #define KICK_TIME 40 // 1/100 of a second at 7.7 power tested
 
 task main() 
 {
-    SetPower(OUT_A+OUT_C, WHEELS_SPEED);
-    SetPower(OUT_B, KICKER_SPEED);
+    const int WHEELS_SPEED = 2;
 
+    // This actually is more related to torque than speed
     SetSensor(SENSOR_1, SENSOR_TOUCH);
     SetSensor(SENSOR_2, SENSOR_TOUCH);
     SetSensor(SENSOR_3, SENSOR_TOUCH);
+
+    int r_speed;
+    int l_speed;
 
     start movement;
     start kick;
@@ -83,13 +84,13 @@ void forward()
 {
     if(SENSOR_1 == 1 && SENSOR_3 == 1 )
     {
-        OnFwd(OUT_A + OUT_C);
-        //*robot_wheels_on = 1;
+        l_speed = WHEELS_SPEED;
+        r_speed = WHEELS_SPEED;
     }
-    else if( SENSOR_1 == 0 && SENSOR_3 == 0 /*&& *robot_wheels_on*/) // Stop if no input
+    else if( SENSOR_1 == 0 && SENSOR_3 == 0 ) // Stop if no input
     {
-        Float(OUT_A + OUT_C);
-        //*robot_wheels_on = 0;
+        l_speed = 0;
+        r_speed = 0;
     }
 }
 
@@ -98,19 +99,67 @@ void spin()
     // Left
     if(SENSOR_1 == 1 && SENSOR_3 == 0)
     {
-        OnFwd(OUT_C);
-        OnRev(OUT_A);
+        l_speed = WHEELS_SPEED;
+        r_speed = -WHEELS_SPEED;
         //*robot_wheels_on = 1;
     }
     // Right
     else if(SENSOR_1 == 0 && SENSOR_3 = 1)
     {
-        OnRev(OUT_C);
-        OnFwd(OUT_A);
+        l_speed = -WHEELS_SPEED;
+        r_speed = WHEELS_SPEED;
     }
-    else if( SENSOR_1 == 0 && SENSOR_3 == 0 /*&& *robot_wheels_on*/) // Stop if no input
+    else if( SENSOR_1 == 0 && SENSOR_3 == 0 ) // Stop if no input
     {
-        Float(OUT_A + OUT_C);
-        //*robot_wheels_on = 0;
+        l_speed = 0;
+        r_speed = 0;
+    }
+}
+
+
+
+// Time waiting with motors on based on speed
+task run_l_motor()
+{
+    int time;
+    int __l_speed;
+
+    while(true)
+    {
+        __l_speed = l_speed;
+        if(__l_speed > 0)
+        {
+            OnFwd(OUT_A);
+            time = __l_speed;
+        }
+        else if(__l_speed < 0)
+        {
+            OnRev(OUT_A);
+            time = -__l_speed;     
+        }
+        Wait(time);
+        Off(OUT_A);
+    }
+}
+task run_r_motor()
+{
+    int time = 0;
+    int __r_speed;
+
+    while(true)
+    {
+        __r_speed = r_speed;
+        if(__r_speed > 0)
+        {
+            OnFwd(OUT_C);
+            time = __r_speed;
+        }
+        else if(__r_speed < 0)
+        {
+            OnRev(OUT_C);
+            time = -__r_speed; // need to wait a positive time
+        }
+        Wait(time);
+        Off(OUT_C);
     }
 }
