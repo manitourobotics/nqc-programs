@@ -1,0 +1,9 @@
+// C is kicker
+task main() 
+{
+    OnRev(OUT_B);
+    Wait(10);
+    OnFwd(OUT_B);
+    Wait(10);
+    Off(OUT_B);
+}

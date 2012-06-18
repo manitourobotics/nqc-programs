@@ -1,0 +1,6 @@
+// A is left wheel
+// C is right wheel
+task main() 
+{
+    OnFwd(OUT_A + OUT_C);
+}

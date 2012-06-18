@@ -1,0 +1,8 @@
+// A is left wheel
+// C is right wheel
+task main() 
+{
+    OnRev(OUT_A);
+    OnRev(OUT_C);
+
+}

@@ -1,0 +1,8 @@
+// A is left wheel
+// B is right wheel
+
+task main()
+{
+    OnRev(OUT_A);
+    OnFwd(OUT_C);
+}
