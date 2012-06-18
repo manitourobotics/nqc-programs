@@ -15,7 +15,8 @@ done
 for i in {1..5}
 do
     if [ -e ./$i* ]; then
-        nqc -pgm $i -d $i
+        nqc -pgm $i 
+        nqc -d $i*
         echo "$i sent"
     else
         echo "$i not found"
