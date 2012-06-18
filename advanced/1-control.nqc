@@ -43,38 +43,54 @@ task movement()
 
 task kick()
 {
+
     while(true)
     {
-        if(SENSOR_2 == 1)
+        if(SENSOR_2 == 1) 
         {
             OnRev(OUT_B);
             Wait(KICK_TIME);
             OnFwd(OUT_B);
             Wait(KICK_TIME);
             Float(KICK_TIME);
+            sensor_1_pressed = 1;
         }
     }
 }
 
 task sound() 
 {
+    // Stop the sound from repeating during one press
+    int sensor_1_pressed = 0 ;
+    int sensor_2_pressed = 0 ;
+    int sensor_3_pressed = 0 ;
+
     while(true)
     {
-        if(SENSOR_1 == 1) 
+        if(SENSOR_1 == 1 && !sensor_1_pressed)
         {
             PlaySound(1);
             Wait(50);
+            sensor_1_pressed = 1;
         }
-        if(SENSOR_2 == 1)
+        else
+            sensor_1_pressed = 0;
+        if(SENSOR_2 == 1 && !sensor_2_pressed)
         {
             PlaySound(4);
             Wait(50);
+            sensor_2_pressed = 1;
         }
-        if(SENSOR_3 == 1)
+        else
+            sensor_2_pressed = 0;
+        if(SENSOR_3 == 1 && !sensor_3_pressed)
         {
             PlaySound(1);
             Wait(50);
+            sensor_3_pressed = 1;
         }
+        else
+            sensor_3_pressed = 0;
     }
 }
 
