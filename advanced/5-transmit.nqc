@@ -1,0 +1,83 @@
+/*
+    Made by Bryce Guinta
+
+    The program's intent is:
+        A == 1, B == 2, C == 3
+        -to spin left when sensor A and not C are pressed
+        -to spin right when sensor C and not A are pressed
+        -to go forward when sensor A and C are pressed
+        -to kick when sensor B is pressed
+
+    Output Mapping:
+        - A -- Right motor
+        - B -- Kicker
+        - C -- Left motor
+*/
+
+// Transmitted messages
+#define FORWARD 1
+#define BACKWARD 2
+#define STOP 3
+#define TURN_LEFT 4
+#define TURN_RIGHT 5
+#define KICK 6
+
+task main() 
+{
+    SetSensor(SENSOR_1, SENSOR_TOUCH);
+    SetSensor(SENSOR_2, SENSOR_TOUCH);
+    SetSensor(SENSOR_3, SENSOR_TOUCH);
+
+    start movement;
+    start kick;
+}
+
+task movement() 
+{
+    while(true)
+    {
+        spin();
+        forward();
+    }
+}
+
+task kick()
+{
+    while(true)
+    {
+        if(SENSOR_2 == 1)
+        {
+            SendMessage(KICK);
+        }
+    }
+}
+
+void forward()
+{
+    if(SENSOR_1 == 1 && SENSOR_3 == 1 )
+    {
+        SendMessage(FORWARD);
+    }
+    else if( SENSOR_1 == 0 && SENSOR_3 == 0) // Stop if no input
+    {
+        SendMessage(STOP);
+    }
+}
+
+void spin()
+{
+    // Left
+    if(SENSOR_1 == 1 && SENSOR_3 == 0)
+    {
+        SendMessage(TURN_LEFT);
+    }
+    // Right
+    else if(SENSOR_1 == 0 && SENSOR_3 = 1)
+    {
+        SendMessage(TURN_RIGHT);
+    }
+    else if( SENSOR_1 == 0 && SENSOR_3 == 0) // Stop if no input
+    {
+        SendMessage(STOP);
+    }
+}
