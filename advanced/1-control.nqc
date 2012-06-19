@@ -25,6 +25,7 @@ task main()
 
     start movement;
     start kick;
+    start codes;
 }
 
 task movement() 
@@ -39,16 +40,26 @@ task movement()
 task kick()
 {
 
+    int first_pressed = 1;
+
     while(true)
     {
-        if(SENSOR_2 == 1) 
+        // rest upward, move downward when first pressed
+        // kick upward when released
+
+        if(SENSOR_2 == 1 && first_pressed) 
+        {
+            OnFwd(OUT_B);
+            Wait(KICK_TIME * 2);
+            Off(OUT_B);
+            first_pressed = 0;
+        }
+        else if(SENSOR_2 == 0 && !first_pressed)
         {
             OnRev(OUT_B);
             Wait(KICK_TIME);
-            OnFwd(OUT_B);
-            Wait(KICK_TIME);
             Off(OUT_B);
-            Wait(KICK_TIME * 2);
+            first_pressed = 1;
         }
     }
 }
@@ -87,5 +98,98 @@ void spin()
     {
         Off(OUT_A + OUT_C);
         //*robot_wheels_on = 0;
+    }
+}
+
+task codes()
+{
+    #define PRESS_INTERVAL 5
+    int *backward_state = 0;
+
+    while(true)
+    {
+        code_backward(&backward_state);
+    }
+}
+
+// key combinations to incite a backward movement
+// A, C, B
+void code_backward(int *state)
+{
+    // a pressed
+    if(SENSOR_1 == 1 && !SENSOR_2 && !SENSOR_3)
+    {
+        *state = 1;
+        ClearTimer(0);
+    }
+    // c pressed after a
+    else if(!SENSOR_1 && !SENSOR_2 && SENSOR_3 && *state == 1 )
+    {
+        // within time
+        if(Timer(0) <= PRESS_INTERVAL)
+            *state = 2;
+        else
+        {
+            *state = 0;
+            ClearTimer(0);
+        }
+    }
+    // b pressed within time
+    else if(!SENSOR_1 && SENSOR_2 && !SENSOR_3 && *state == 2)
+    {
+        if(Timer(0) <= PRESS_INTERVAL * 2)
+            *state = 3;
+        else
+        {
+            *state = 0;
+            ClearTimer(0);
+        }
+
+    }
+    else if(*state == 3)
+    {
+        
+        stop kick;
+        stop movement;
+        Off(OUT_B); // kicker still on
+        OnFwd(OUT_A + OUT_C);
+        if(SENSOR_2)
+        {
+            Wait(1);
+        }
+        else
+        {
+            Off(OUT_A + OUT_C);
+            *state = 0;
+            start kick;
+            start movement;
+            ClearTimer(0);
+        }
+    }
+    else
+    {
+        // if another button is pressed, then the combination fails
+        int *is_pressed = 0;
+        is_sensor_pressed(&is_pressed);
+        if(is_pressed)
+        {
+            *state = 0;
+        }
+    }
+}
+
+void is_sensor_pressed(int *bool)
+{
+    if(SENSOR_1)
+    {
+       *bool = 1;
+    }
+    else if(SENSOR_2)
+    {
+       *bool = 1;
+    }
+    else if(SENSOR_3)
+    {
+       *bool = 1;
     }
 }
