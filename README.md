@@ -1,6 +1,6 @@
 ###About
 
-This repository is a compilation of programs, scripts, and pdf manuals I(Bryce Guinta) used for [Manitou FIRST Robotics](http://manitourobotics.com) summer camp.
+This repository is a compilation of programs, scripts, and pdf manuals I(Bryce Guinta) used for [Manitou FIRST Robotics](http://manitourobotics.com) summer camp which used an RCX2.0 brick as a tethered controller.
 
 
 
