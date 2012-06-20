@@ -2,11 +2,11 @@
     Made by Bryce Guinta
 
     The program's intent is:
-        A == 1, B == 2, C == 3
-        -to spin left when sensor A and not C are pressed
-        -to spin right when sensor C and not A are pressed
-        -to go forward when sensor A and C are pressed
-        -to kick when sensor B is pressed
+        -to spin left when sensor 1 and not 3 are pressed
+        -to spin right when sensor 3 and not 1 are pressed
+        -to go forward when sensor 1 and 3 are pressed
+        -to kick when sensor 2 is pressed
+        -to move backward when a key combo is pressed( a only, c only, b only)
 
     Output Mapping:
         - A -- Right motor

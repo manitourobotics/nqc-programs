@@ -1,17 +1,8 @@
 /*
     Made by Bryce Guinta
 
-    The program's intent is:
-        A == 1, B == 2, C == 3
-        -to spin left when sensor A and not C are pressed
-        -to spin right when sensor C and not A are pressed
-        -to go forward when sensor A and C are pressed
-        -to kick when sensor B is pressed
-
-    Output Mapping:
-        - A -- Right motor
-        - B -- Kicker
-        - C -- Left motor
+    The program recieves signals from another RCX brick using infrared and then
+    moves accordingly. (except for moving backward, this program is the same as 1-control.nqc )
 */
 
 #define KICK_TIME 40 // 1/100 of a second at 7.7 power tested

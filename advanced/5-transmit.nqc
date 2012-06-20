@@ -1,12 +1,8 @@
 /*
     Made by Bryce Guinta
 
-    The program's intent is:
-        A == 1, B == 2, C == 3
-        -to spin left when sensor A and not C are pressed
-        -to spin right when sensor C and not A are pressed
-        -to go forward when sensor A and C are pressed
-        -to kick when sensor B is pressed
+
+    This program sends signals to another RCX brick. 4-receive.nqc is designed to receive those signals
 
     Output Mapping:
         - A -- Right motor

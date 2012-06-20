@@ -14,4 +14,4 @@ or look in the scripts folder at deploy.sh which you can just run in the current
 
     ./deploy
 
-I'm assuming that you're using the RCX2.0 with a USB infrared tower.
+I'm assuming( and so does the script) that you're using the RCX2.0 with a USB infrared tower.
