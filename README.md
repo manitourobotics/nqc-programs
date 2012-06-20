@@ -10,4 +10,8 @@ You need to download NQC( http://bricxcc.sourceforge.net/nqc/ ) if you wish to d
 
     nqc -Trcx2 -Susb -d <program-name>
 
-or look in the scripts folder at deploy.sh. I'm assuming that you're using the RCX2.0 with a USB infrared tower.
+or look in the scripts folder at deploy.sh which you can just run in the current directory. 
+
+    ./deploy
+
+I'm assuming that you're using the RCX2.0 with a USB infrared tower.
